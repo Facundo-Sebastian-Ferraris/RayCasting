@@ -19,7 +19,6 @@ export class Level {
         //dimensiones del canvas
         this.altoC  = this.canvas.height;
         this.anchoC = this.canvas.width;
-        console.log(this.altoM);
 
         //dimensiones del tile
         this.altoT  =  parseInt(this.altoC/this.altoM);

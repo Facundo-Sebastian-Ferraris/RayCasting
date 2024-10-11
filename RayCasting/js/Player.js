@@ -14,9 +14,10 @@ export class Player {
 
         this.anguloRotacion = 0;
 
-        this.velocidadMovimiento = 2;           //PIXEL
+        this.velocidadMovimiento = 4;           //PIXEL
         this.velocidadGiro = this.velocidadMovimiento*(Math.PI / 180); //GRADOS
     
+        //              Rayo(con     ,escenario     ,x     ,y     ,anguloJugador      ,incrementoAngulo,columna)
         this.rayo = new Rayo(this.ctx,this.escenario,this.x,this.y,this.anguloRotacion,0);
     }
 
@@ -79,6 +80,9 @@ export class Player {
 
         this.anguloRotacion += this.gira * this.velocidadGiro;
         this.anguloRotacion = this.normalizarAngulo(this.anguloRotacion);
+        this.rayo.setAngulo(this.anguloRotacion);
+        this.rayo.setPosicion(this.x,this.y);
+
     }
 
 
@@ -91,27 +95,12 @@ export class Player {
 
         var r=0;//0: no colision //1:colision vertical //2: colision horizontal //3: coliscion esquina    
         // Verificamos si estamos moviéndonos principalmente en el eje X (horizontal)
-        return this.escenario.colision(casillaX1, casillaY1);
-        // if (this.escenario.colision(casillaX1, casillaY1)) {
-        //     //colisionVertical cuando lo nuevo esta en celda negra pero a los lados
-        //     if (casillaX0==casillaX1) {
-        //         r+=1;
-        //     }
-        //     if (casillaY0==casillaY1) {
-        //         r+=2;
-        //     }
-        //     //colisionHorizontal
-        // }
-        console.log('codigo colision: '+ r 
-            +'\nCeldaJugador('+casillaX0+','+casillaY0+')'
-            +'\nCeldaPensada('+casillaX1+','+casillaY1+')'
-        );
-        return r;     
+        return this.escenario.colision(casillaX1, casillaY1);  
     }
-
+    
     dibuja(){
         this.actualiza();
-
+        this.rayo.dibuja();
         //cuadrado
         this.ctx.fillStyle = colorPlayer;
         this.ctx.fillRect(this.x-3, this.y-3, 6, 6);
@@ -119,12 +108,13 @@ export class Player {
         //lineaDirecion
         var xDestino = this.x + Math.cos(this.anguloRotacion)*40;
         var yDestino = this.y + Math.sin(this.anguloRotacion)*40;
-
+        
         this.ctx.beginPath();
         this.ctx.moveTo(this.x,this.y);
         this.ctx.lineTo(xDestino,yDestino);
         this.ctx.strokeStyle = '#FFFF';
         this.ctx.stroke();
+        
     }
 
 }
