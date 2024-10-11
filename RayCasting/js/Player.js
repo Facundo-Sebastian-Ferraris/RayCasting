@@ -14,7 +14,7 @@ export class Player {
 
         this.anguloRotacion = 0;
 
-        this.velocidadMovimiento = 3;           //PIXEL
+        this.velocidadMovimiento = 2;           //PIXEL
         this.velocidadGiro = this.velocidadMovimiento*(Math.PI / 180); //GRADOS
     
         this.rayo = new Rayo(this.ctx,this.escenario,this.x,this.y,this.anguloRotacion,0);
