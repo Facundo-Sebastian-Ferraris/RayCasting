@@ -58,20 +58,24 @@ export class Player {
     actualiza(){
         var nuevaX = this.x +(this.avanza*Math.cos(this.anguloRotacion)*this.velocidadMovimiento);
         var nuevaY = this.y +(this.avanza*Math.sin(this.anguloRotacion)*this.velocidadMovimiento);
-        var condicion = this.colision(this.x,this.y,nuevaX,nuevaY);
-        switch (condicion) {//0: no colision //1:colision vertical //2: colision horizontal //3: coliscion esquina
-            case 0:
-                this.x = nuevaX;
-                this.y = nuevaY;
-                break;
-            case 1:
-                this.x=nuevaX;
-                break;
-            case 2:
-                this.y=nuevaY;
-            default:
-                break;
+        var condicion = !this.colision(this.x,this.y,nuevaX,nuevaY);
+        if (condicion) {
+            this.x = nuevaX;
+            this.y = nuevaY;
         }
+        // switch (condicion) {//0: no colision //1:colision vertical //2: colision horizontal //3: coliscion esquina
+        //     case 0:
+        //         this.x = nuevaX;
+        //         this.y = nuevaY;
+        //         break;
+        //     case 1:
+        //         this.x=nuevaX;
+        //         break;
+        //     case 2:
+        //         this.y=nuevaY;
+        //     default:
+        //         break;
+        // }
 
         this.anguloRotacion += this.gira * this.velocidadGiro;
         this.anguloRotacion = this.normalizarAngulo(this.anguloRotacion);
@@ -87,17 +91,17 @@ export class Player {
 
         var r=0;//0: no colision //1:colision vertical //2: colision horizontal //3: coliscion esquina    
         // Verificamos si estamos moviéndonos principalmente en el eje X (horizontal)
-
-        if (this.escenario.colision(casillaX1, casillaY1)) {
-            //colisionVertical cuando lo nuevo esta en celda negra pero a los lados
-            if (casillaX0==casillaX1) {
-                r+=1;
-            }
-            if (casillaY0==casillaY1) {
-                r+=2;
-            }
-            //colisionHorizontal
-        }
+        return this.escenario.colision(casillaX1, casillaY1);
+        // if (this.escenario.colision(casillaX1, casillaY1)) {
+        //     //colisionVertical cuando lo nuevo esta en celda negra pero a los lados
+        //     if (casillaX0==casillaX1) {
+        //         r+=1;
+        //     }
+        //     if (casillaY0==casillaY1) {
+        //         r+=2;
+        //     }
+        //     //colisionHorizontal
+        // }
         console.log('codigo colision: '+ r 
             +'\nCeldaJugador('+casillaX0+','+casillaY0+')'
             +'\nCeldaPensada('+casillaX1+','+casillaY1+')'
